@@ -95,7 +95,7 @@ void UW_GoHome(Edge matrix[][547], int from, int to, Path parents[][547]){
 }
 
 void DU_GoHome(Edge matrix[][547], int from, int to, Path parents[][547], Vertex start){
-    if(from == to)
+    if(from == to | matrix[from][to].StartVertex == "NULL")
         return;
     else
     {
@@ -126,15 +126,12 @@ void redPill(Edge matrix[][547], Edge RBM[], Vertex vertical[], int num_edge, in
                 from = vertical[x].index;
             if(vertical[x].name == RBM[i].EndVertex)
                 to = vertical[x].index;
-        //    cout << "x = " << x << endl;
-          //  cout << "from = " << from << endl;
-            //cout << "to = " << to << endl;
-        };
+        }
+        RBM[i].index_Start = from;
+        RBM[i].index_End = to;
         matrix[from][to] = RBM[i];
         matrix[from][to].index_Start = from;
         matrix[from][to].index_End = to;
-        from = -1;
-        to = -1;
     }
     return;
 }
@@ -142,12 +139,20 @@ void redPill(Edge matrix[][547], Edge RBM[], Vertex vertical[], int num_edge, in
 
 void bluePill(Edge RBM[], Edge Edgy[][547], int num_edge){
     int from = 0, to = 0;
+    cout << "take the pill" << endl;
     for (int i = 0; i < num_edge; i++)
     {
+        cout << "FOR THE " << i <<"TH TIME, TAKE THE PILL!!!" << endl;
         from = RBM[i].index_Start;
+        cout << "Piss";
         to = RBM[i].index_End;
+        cout << " off" << endl;
+        cout << "from = " <<from << endl;
+        cout << "to =  " << to << endl;
         RBM[i] = Edgy[from][to];
+        cout << "Midway through taking pill" << endl;
     }
+    cout << "pill taken" << endl;
     return;
 }
 
@@ -392,15 +397,12 @@ void ShortestPathDistroPrint(Path wayHome[][547], const int num_verts, Vertex No
     {
         for(int to = 0; to < num_verts; to++)
         {   //find diameters
-        cout << wayHome[from][to].DU_Weight << endl;
             if(wayHome[from][to].UU_Weight > UMax)
                 UMax = wayHome[from][to].UU_Weight;
             if(wayHome[from][to].DU_Weight > DMax)
                 DMax = wayHome[from][to].DU_Weight;
         }
     }
-    cout << UMax << DMax << endl;
-    cout << "Do I get here? Find out next week on DRAGON BALL ZEE!" << endl;
     UndirectedPathDistributionOutput(wayHome, num_verts, Nodes, UMax);
     DirectedPathDistributionOutput(wayHome, num_verts, Nodes, DMax);
     return;
@@ -478,12 +480,20 @@ void UnweightedBetweennessDisplay(Edge RBM[], const int num_edge){
 
 void UU_BetweennessPrint(Edge RBM[], const int num_edge, const int UMax){
     int Distro[UMax+1];
+    int blah = 0;
     for(int i = 0; i <= UMax; i++)
         Distro[i]=0;
     for(int i = 0; i < num_edge; i++)
         Distro[RBM[i].UU_BetweennessCentrality]++;
-    for(int i = 1; i <= UMax; i++) //We may change this depending on the size of UMax
-        cout << "Edges with Unweighted Undirected Betweenness Centrality " << i << ": " << Distro[i] << endl;
+    for(int i = 0; i <=10 ; i++)
+    {
+        for(int x = i*35+1; x < (i+1)*35; x++)
+        {
+            blah += Distro[x];
+        }
+        cout << "Edges with Unweighted Undirected Betweenness Centrality between " << i*35+1 << " and " << (i+1)*35  << ": " << blah << endl;
+        blah = 0;
+    }
     return;
 }
 
